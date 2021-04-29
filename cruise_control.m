@@ -121,6 +121,9 @@ for i=1:length(TOUT)
         vehicle_dimension_Y = [+vehicle_Width/2 -vehicle_Width/2 -vehicle_Width/2 +vehicle_Width/2];
         % Plotting
         fill(vehicle_dimension_X,vehicle_dimension_Y,'r')
+        
+        xlabel('Lon. distance [m]')
+        ylabel('Lat. distance [m]')
     
     frame = getframe(gcf);
     writeVideo(v,frame);
