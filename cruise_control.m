@@ -39,7 +39,8 @@ TSPAN   = linspace(0,tf,tf*fR);     % Time                          [s]
 Z0 = [0 vehicle_Initial_Speed]; 
 
 % Integration
-[TOUT,ZOUT] = ode45(@(t,z) vehicle_dynamics(t,z,vehicle),TSPAN,Z0);
+options = odeset('RelTol',1e-6);
+[TOUT,ZOUT] = ode45(@(t,z) vehicle_dynamics(t,z,vehicle),TSPAN,Z0,options);
 
 % States
 vehicle_position    = ZOUT(:,1);
