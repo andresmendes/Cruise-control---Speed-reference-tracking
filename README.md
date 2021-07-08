@@ -2,6 +2,6 @@
 # Cruise control - Speed reference tracking
 Simulation and animation of a vehicle with cruise control and varying speed reference.
 
-Watch animation on YouTube: https://youtu.be/FsIj-VvWe4Y
+Watch the animation on YouTube: https://youtu.be/FsIj-VvWe4Y
 
 ![Logo](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/6a01c213-1878-41f8-b17e-f2c563162314/f1428086-92a3-4b20-983b-fd74e2d9dfc8/images/1620765199.png)
