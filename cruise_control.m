@@ -60,16 +60,17 @@ end
 %% Results
 
 figure
-set(gcf,'Position',[270   140   640     360  ])
+set(gcf,'Position',[20 20 1280 720]) % 720p
+% set(gcf,'Position',[20 20 854 480]) % 480p
 
 % Create and open video writer object
-v = VideoWriter('cruise_control.avi');
+v = VideoWriter('cruise_control.mp4','MPEG-4');
 v.Quality = 100;
 open(v);
 
 for i=1:length(TOUT)
     subplot(3,2,1)
-        hold on ; grid on
+        hold on ; grid on ; box on
         set(gca,'xlim',[0 TOUT(end)],'ylim',[0 1.2*max(vehicle_position)])
         cla 
         plot(TOUT,vehicle_position,'b')
@@ -78,7 +79,7 @@ for i=1:length(TOUT)
         ylabel('Position [m]')
         title('Position')
     subplot(3,2,2)
-        hold on ; grid on
+        hold on ; grid on ; box on
         set(gca,'xlim',[0 TOUT(end)],'ylim',[0 1.2*max(vehicle_speed)])
         cla 
         plot(TOUT,speed_ref,'k')
@@ -88,25 +89,25 @@ for i=1:length(TOUT)
         ylabel('Speed [m/s]')
         title('Speed (Black=Reference, Blue=Actual)')
     subplot(3,2,3)
-        hold on ; grid on
-        set(gca,'xlim',[0 TOUT(end)],'ylim',[1.2*min(vehicle_acc) 1.2*max(vehicle_acc)])
+        hold on ; grid on ; box on
+        set(gca,'xlim',[0 TOUT(end)],'ylim',[min(vehicle_acc)-1 max(vehicle_acc)+1])
         cla 
         plot(TOUT,vehicle_acc,'b')
-        plot([TOUT(i) TOUT(i)],[1.2*min(vehicle_acc) 1.2*max(vehicle_acc)],'k--') 
+        plot([TOUT(i) TOUT(i)],[min(vehicle_acc)-1 max(vehicle_acc)+1],'k--') 
         xlabel('Time [s]')
         ylabel('Acceleration [m/s2]')
         title('Acceleration')
     subplot(3,2,4)
-        hold on ; grid on
-        set(gca,'xlim',[0 TOUT(end)],'ylim',[1.2*min(force_long) 1.2*max(force_long)])
+        hold on ; grid on ; box on
+        set(gca,'xlim',[0 TOUT(end)],'ylim',[min(force_long)-500 max(force_long)+500])
         cla 
         plot(TSPAN,force_long,'b')
-        plot([TOUT(i) TOUT(i)],[1.2*min(force_long) 1.2*max(force_long)],'k--') 
+        plot([TOUT(i) TOUT(i)],[min(force_long)-500 max(force_long)+500],'k--') 
         xlabel('Time [s]')
         ylabel('Lon. force [N]')
         title('Longitudinal force')
     subplot(3,2,5:6)
-        hold on ; axis equal
+        hold on ; axis equal ; box on
         cla 
         % Position of the vehicle at current instant [m]
         vehicle_position_inst = vehicle_position(i);
@@ -158,7 +159,7 @@ function [dstates,F_lon,V_ref] = vehicle_dynamics(t,states,vehicle)
     
     % Cruise controller
     Kp = 500;
-    F_lon  = Kp*(V_ref - V) + Dx;
+    F_lon  = Kp*(V_ref - V) + C*V_ref^2;
     
     % Dynamics
     dstates(1,1) = V;
